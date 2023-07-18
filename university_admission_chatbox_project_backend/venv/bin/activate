@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/kaberere/MY_PROJECTS/university_admission_chatbox_project/venv"
+VIRTUAL_ENV="/home/kaberere/MY_PROJECTS/uni_admission_chatbox_app/university_admission_chatbox_project_backend/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

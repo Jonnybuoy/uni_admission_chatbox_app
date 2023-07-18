@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/kaberere/MY_PROJECTS/university_admission_chatbox_project/venv"
+set -gx VIRTUAL_ENV "/home/kaberere/MY_PROJECTS/uni_admission_chatbox_app/university_admission_chatbox_project_backend/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
