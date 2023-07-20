@@ -1,3 +1,15 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from chatbox.chat import get_response
 
-# Create your views here.
+
+def chatbot(request):
+    if request.method == 'POST':
+        data = request.POST
+        user_input = data.get('user_input', '').strip()
+        
+        if user_input:
+            response = get_response(user_input)
+            
+            return JsonResponse({'response': response})
+    
+    return JsonResponse({})
