@@ -59,6 +59,7 @@ def get_admission_requirements(university_data, sentence):
                 return response
 
 def search_universities(university_data):
+    all_schools = []
     for result in university_data:
         school_data = result.get('2020', {}).get('school', {})
         school_name = school_data.get('name')
@@ -66,6 +67,40 @@ def search_universities(university_data):
             all_schools.append(school_name)
         response = f"{all_schools}"
     return response
+
+def get_cost_requirements(university_data, sentence):
+    for result in university_data:
+        school_data = result.get('2020', {}).get('school', {})
+        school_data = school_data.get('name').split()
+        for name in school_data:
+            if name in sentence:
+                cost_data = result.get('2020', {}).get('cost', {})
+                cost_requirements = {
+                    'tuition': cost_data.get('tuition'),
+                    'roomboard': cost_data.get('roomboard'),
+                    'avg_net_price': cost_data.get('avg_net_price'),
+                    'otherexpense': cost_data.get('otherexpense')
+                }
+                response = f"{cost_requirements}"
+                return response
+
+def aid_information(university_data, sentence):
+    for result in university_data:
+        school_data = result.get('2020', {}).get('school', {})
+        school_data = school_data.get('name').split()
+        for name in school_data:
+            if name in sentence:
+                aid_data = result.get('2020', {}).get('aid', {})
+                aid_info = {
+                    'loan_principal': aid_data.get('loan_principal'),
+                    'federal_loan_rate': aid_data.get('federal_loan_rate'),
+                    'dependent_students': aid_data.get('dependent_students'),
+                    'independent_students': aid_data.get('independent_students'),
+                    'completers': aid_data.get('completers')
+                }
+                response = f"{aid_info}"
+                return response
+    
 
 def get_response(msg):
     sentence = tokenize(msg)
@@ -83,17 +118,26 @@ def get_response(msg):
     
     
     university_data = fetch_university_info()
-    all_schools = []
     
     if prob.item() > 0.75:
         for intent in intents['intents']:
             if tag == intent["tag"]:
                 if intent["tag"] == "search_universities":
                     response = search_universities(university_data)
+                    return response
 
                 elif intent["tag"] == "admission_requirements":
                     response = get_admission_requirements(university_data, sentence)
-
+                    return response
+                
+                elif intent["tag"] == "cost":
+                    response = get_cost_requirements(university_data, sentence)
+                    return response
+                
+                elif intent["tag"] == "aid":
+                    response = aid_information(university_data, sentence)
+                    return response
+    
     return "I do not understand..."
 
 

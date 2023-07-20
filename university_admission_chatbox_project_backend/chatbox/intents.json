@@ -56,11 +56,14 @@
             ]
         },
         {
-            "tag": "delivery",
+            "tag": "cost",
             "patterns": [
-                "How long does delivery take?",
-                "How long does shipping take?",
-                "When do I get my delivery?"
+                "What is the tuition cost for Alabama State University?",
+                "What is the tuition cost for Alabama A & M University?",
+                "When are the room or housing costs at Auburn University?",
+                "What is the average net price for joining a public university?",
+                "What is the average cost for an academic year at Alabama State University?",
+                "What other expenses can a student incur while studying there?"
             ],
             "responses": [
                 "Delivery takes 2-4 days",
@@ -68,11 +71,13 @@
             ]
         },
         {
-            "tag": "funny",
+            "tag": "aid",
             "patterns": [
-                "Tell me a joke!",
-                "Tell me something funny!",
-                "Do you know a joke?"
+                "What is the federal loan rate when getting aid at Alabama A & M University",
+                "What is the loan principal amount when getting aid at South University-Montgomery?",
+                "What is the average monthly repayments for the loans?",
+                "How many students depend on aid there?",
+                "How many students do not depend on aid there?"
             ],
             "responses": [
                 "Why did the hipster burn his mouth? He drank the coffee before it was cool.",
