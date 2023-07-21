@@ -38,8 +38,8 @@
                 "Are there private universities abroad?"
             ],
             "responses": [
-                "We sell coffee and tea",
-                "We have coffee and tea"
+                "Here are some of the univesities you can study abroad:",
+                "Yes here is a list of universities you can attend abroad:"
             ]
         },
         {
@@ -51,8 +51,8 @@
                 "What are the act scores required for admission to Alabama State University?"
             ],
             "responses": [
-                "We accept VISA, Mastercard and Paypal",
-                "We accept most major credit cards, and Paypal"
+                "Sure here are the admission requirements for",
+                "The following is a list of admission requirements for"
             ]
         },
         {
@@ -66,8 +66,8 @@
                 "What other expenses can a student incur while studying there?"
             ],
             "responses": [
-                "Delivery takes 2-4 days",
-                "Shipping takes 2-4 days"
+                "Here are the costs incurred at",
+                "The following are the cost requirements at"
             ]
         },
         {
@@ -80,8 +80,8 @@
                 "How many students do not depend on aid there?"
             ],
             "responses": [
-                "Why did the hipster burn his mouth? He drank the coffee before it was cool.",
-                "What did the buffalo say when his son left for college? Bison."
+                "Here is the data for the aid specifications at",
+                "The following are the aid requirements at"
             ]
         }
     ]

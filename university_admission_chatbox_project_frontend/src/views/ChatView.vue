@@ -73,7 +73,7 @@
                             </div>
                             <div>
                                 <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-                                    <p class="text-sm">Chatbot: {{ message.text }}</p>
+                                    <p class="text-sm" v-html="formatMessageText(message.text)"></p>
                                 </div>
                                 <span class="text-xs text-gray-500 leading-none">2 min ago</span>
                             </div>
@@ -112,6 +112,11 @@ export default {
     },
 
     methods: {
+        formatMessageText(text) {
+            // Replace newlines with HTML line breaks to preserve the formatting
+            return text.replace(/\n/g, "<br>");
+        },
+        
         sendMessage() {
             this.chatHistory.push({id: Date.now(), type: 'user', text: this.userInput});
 

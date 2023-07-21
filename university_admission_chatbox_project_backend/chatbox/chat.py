@@ -25,8 +25,6 @@ model = NeuralNet(input_size, hidden_size, output_size).to(device)
 model.load_state_dict(model_state)
 model.eval()
 
-bot_name = "Unichatty"
-
 api_url = "https://api.data.gov/ed/collegescorecard/v1/schools/?school.operating=1&2020.student.size__range=1..&school.degrees_awarded.predominant__range=1..3&school.degrees_awarded.highest__range=2..4&api_key=I5gr1WgKH4UfV87xbbRK6vcwqlKrq4YPPL1C7eTx"
 
 def fetch_university_info():
@@ -42,6 +40,22 @@ def fetch_university_info():
     
     return []
 
+def format_dict_responses(response_data):
+    def format_nested(data, level=0):
+        indent = " " * (level * 2)
+        formatted = ""
+
+        for key, value in data.items():
+            if isinstance(value, dict):
+                formatted += f"{indent}{key} :\n"
+                formatted += format_nested(value, level + 1)
+            else:
+                formatted += f"{indent}{key} - {value}\n"
+
+        return formatted
+
+    return format_nested(response_data)
+
 def get_admission_requirements(university_data, sentence):
     for result in university_data:
         school_data = result.get('2020', {}).get('school', {})
@@ -55,8 +69,8 @@ def get_admission_requirements(university_data, sentence):
                     'act_scores': admissions_data.get('act_scores'),
                     'sat_scores': admissions_data.get('sat_scores')
                 }
-                response = f"{admission_requirements}"
-                return response
+                response = admission_requirements
+                return response, name
 
 def search_universities(university_data):
     all_schools = []
@@ -65,7 +79,7 @@ def search_universities(university_data):
         school_name = school_data.get('name')
         if school_name:
             all_schools.append(school_name)
-        response = f"{all_schools}"
+        response = all_schools
     return response
 
 def get_cost_requirements(university_data, sentence):
@@ -81,8 +95,8 @@ def get_cost_requirements(university_data, sentence):
                     'avg_net_price': cost_data.get('avg_net_price'),
                     'otherexpense': cost_data.get('otherexpense')
                 }
-                response = f"{cost_requirements}"
-                return response
+                response = cost_requirements
+                return response, name
 
 def aid_information(university_data, sentence):
     for result in university_data:
@@ -98,8 +112,8 @@ def aid_information(university_data, sentence):
                     'independent_students': aid_data.get('independent_students'),
                     'completers': aid_data.get('completers')
                 }
-                response = f"{aid_info}"
-                return response
+                response = aid_info
+                return response, name
     
 
 def get_response(msg):
@@ -123,19 +137,27 @@ def get_response(msg):
         for intent in intents['intents']:
             if tag == intent["tag"]:
                 if intent["tag"] == "search_universities":
-                    response = search_universities(university_data)
+                    universities = search_universities(university_data)
+                    response = f"{random.choice(intent['responses'])}\n"
+                    response += "\n".join([f"{i+1}. {university}" for i, university in enumerate(universities)])
                     return response
 
                 elif intent["tag"] == "admission_requirements":
-                    response = get_admission_requirements(university_data, sentence)
+                    admission_requirements, school_name = get_admission_requirements(university_data, sentence)
+                    response = f"{random.choice(intent['responses'])} {school_name}:\n"
+                    response += format_dict_responses(admission_requirements)
                     return response
                 
                 elif intent["tag"] == "cost":
-                    response = get_cost_requirements(university_data, sentence)
+                    cost_requirements, school_name = get_cost_requirements(university_data, sentence)
+                    response = f"{random.choice(intent['responses'])} {school_name}:\n"
+                    response += format_dict_responses(cost_requirements)
                     return response
                 
                 elif intent["tag"] == "aid":
-                    response = aid_information(university_data, sentence)
+                    aid_info, school_name = aid_information(university_data, sentence)
+                    response = f"{random.choice(intent['responses'])} {school_name}:\n"
+                    response += format_dict_responses(aid_info)
                     return response
     
     return "I do not understand..."
