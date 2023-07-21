@@ -142,12 +142,12 @@ def get_response(msg):
 
 
 
-print("Let's chat! (type 'quit' to exit)")
-while True:
-    # sentence = "do you use credit cards?"
-    sentence = input("You: ")
-    if sentence == "quit":
-        break
+# print("Let's chat! (type 'quit' to exit)")
+# while True:
+#     # sentence = "do you use credit cards?"
+#     sentence = input("You: ")
+#     if sentence == "quit":
+#         break
 
-    resp = get_response(sentence)
-    print(resp)
+#     resp = get_response(sentence)
+#     print(resp)
