@@ -64,6 +64,16 @@
                             </div>
                         </div>
 
+                        <div v-if="loading" class="bg-white border border-gray-200 rounded-lg p-4">
+                            <div class="flex justify-center items-center h-32">
+                                <svg class="animate-spin h-5 w-5 text-gray-600 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647zM12 20a8 8 0 110-16 8 8 0 010 16z"></path>
+                                </svg>
+                                <p class="text-gray-600">Processing...</p>
+                            </div>
+                        </div>
+
                         <div 
                             class="flex w-full mt-2 space-x-3 max-w-md"
                             v-else-if="message.type === 'chatbot'"
@@ -108,6 +118,7 @@ export default {
         return {
             chatHistory: [],
             userInput: '',
+            loading: false,
         }
     },
 
@@ -119,6 +130,7 @@ export default {
         
         sendMessage() {
             this.chatHistory.push({id: Date.now(), type: 'user', text: this.userInput});
+            this.loading = true; // set loading to true when sending the message
 
             axios
                 .post('/api/chatbot/', { 'userInput': this.userInput })
@@ -131,7 +143,10 @@ export default {
                 })
                 .catch(error => {
                     console.log('error', error);
-                });
+                })
+                .finally(() => {
+                    this.loading = false; // set loading to false when response is received
+                })
         
             this.userInput = '';
         }
