@@ -5,8 +5,7 @@
               <h1 class="mb-6 text-2xl">Log in</h1>
 
               <p class="mb-6 text-gray-500">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam, architecto incidunt esse consectetur rem libero ducimus, 
-                  ipsam illo aliquam dolorum nisi labore quidem? Soluta non, quaerat placeat ex magni mollitia!
+                  Use this page to log into your account.
               </p>
 
               <p class="font-bold">

@@ -3,42 +3,21 @@
         <div class="main-left col-span-1">
             <div class="p-4 bg-white border border-gray-200 rounded-lg">
               <div class="space-y-4">
-                <div class="flex items-center justify-between">
+                <div 
+                    class="flex items-center justify-between"
+                    v-for="chat in chats"
+                    v-bind:key="chat.id"
+                >
                     <div class="flex items-center space-x-2">
                         <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
 
-                        <p class="text-xs"><strong>Johnson Kaberere</strong></p>
+                        <p class="text-xs font-bold">{{ chat.user.name }}</p>
                     </div>
 
-                    <span class="text-xs text-gray-500">18 minutes ago</span>
+                    <span class="text-xs text-gray-500">{{ chat.modified_at_formatted }}</span>
                 </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                        <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
 
-                        <p class="text-xs"><strong>Johnson Kaberere</strong></p>
-                    </div>
 
-                    <span class="text-xs text-gray-500">18 minutes ago</span>
-                </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                        <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
-
-                        <p class="text-xs"><strong>Johnson Kaberere</strong></p>
-                    </div>
-
-                    <span class="text-xs text-gray-500">18 minutes ago</span>
-                </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                        <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
-
-                        <p class="text-xs"><strong>Johnson Kaberere</strong></p>
-                    </div>
-
-                    <span class="text-xs text-gray-500">18 minutes ago</span>
-                </div>
               </div>
             </div>
         </div>
@@ -78,9 +57,6 @@
                             class="flex w-full mt-2 space-x-3 max-w-md"
                             v-else-if="message.type === 'chatbot'"
                         >
-                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
-                                <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
-                            </div>
                             <div>
                                 <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
                                     <p class="text-sm" v-html="formatMessageText(message.text)"></p>
@@ -97,7 +73,7 @@
             <div class="bg-white border border-gray-200 rounded-lg">
                <form v-on:submit.prevent="sendMessage">
                     <div class="p-4">
-                        <textarea v-model="userInput" class="p-4 w-full bg-gray-100 rounded-lg" placeholder="What message do you want to send?"></textarea>
+                        <textarea v-model="userInput" class="p-4 w-full bg-gray-100 rounded-lg" placeholder="What enquiry do you have for the chatbot?"></textarea>
                     </div>
 
                     <div class="p-4 border-t border-gray-100 flex justify-between">
@@ -119,10 +95,53 @@ export default {
             chatHistory: [],
             userInput: '',
             loading: false,
+            chats: [],
+            activeChats: {}
         }
     },
 
+    mounted() {
+        this.getChats()
+    },
+
     methods: {
+        getChats() {
+            console.log('getChats')
+
+            axios
+                .get('/api/chatbot/chat_list/')
+                .then(response => {
+                    console.log(response.data)
+
+                    this.chats = response.data
+
+                    if (this.chats.length) {
+                        this.activeChats = this.chats[0]
+                    }
+                    this.getChatMessages()
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+
+        getChatMessages() {
+            console.log('getMessages')
+
+            axios
+                .get(`api/chatbot/chat_detail/${this.activeChats.id}/`)
+                .then(response => {
+                    console.log(response.data)
+
+                    this.activeChats = response.data
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+
+        },
+
+
         formatMessageText(text) {
             // Replace newlines with HTML line breaks to preserve the formatting
             return text.replace(/\n/g, "<br>");
