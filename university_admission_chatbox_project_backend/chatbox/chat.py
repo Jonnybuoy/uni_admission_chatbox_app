@@ -25,7 +25,7 @@ model = NeuralNet(input_size, hidden_size, output_size).to(device)
 model.load_state_dict(model_state)
 model.eval()
 
-api_url = "https://api.data.gov/ed/collegescorecard/v1/schools/?school.operating=1&2020.student.size__range=1..&school.degrees_awarded.predominant__range=1..3&school.degrees_awarded.highest__range=2..4&api_key=I5gr1WgKH4UfV87xbbRK6vcwqlKrq4YPPL1C7eTx"
+api_url = "https://api.data.gov/ed/collegescorecard/v1/schools/?school.operating=1&2020.student.size__range=1..&school.degrees_awarded.predominant__range=1..3&school.degrees_awarded.highest__range=2..4&api_key={{your_api_key}}"
 
 def fetch_university_info():
     try:
